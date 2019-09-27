@@ -82,7 +82,7 @@ void Model::backwardProp() {
 void Model::checkWeights(void) {
 	float64_t weight_diff = std::abs(1 - weight);
 	float64_t bias_diff = std::abs(0 - bias);
-	if ((weight_diff < 0.000001) && (bias_diff < 0.000001)) {
+	if ((weight_diff < DIFF_THRESHOLD) && (bias_diff < DIFF_THRESHOLD)) {
 		status = MODEL_STATUS_TRAINING_STOP;
 	}
 
@@ -141,6 +141,14 @@ float64_t Model::getWeight(void) {
 
 float64_t Model::getBias(void) {
 	return bias;
+}
+
+uint32_t Model::getTotalEpochs(void) {
+	return total_epochs;
+}
+
+uint32_t Model::getEpochNum(void) {
+	return epoch;
 }
 
 Optimizer* Model::getOptimizer(void) {

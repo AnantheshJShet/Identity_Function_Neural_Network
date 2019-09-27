@@ -64,6 +64,10 @@ public:
 
 	float64_t getBias(void);
 
+	uint32_t getTotalEpochs(void);
+
+	uint32_t getEpochNum(void);
+
 	Optimizer* getOptimizer(void);
 
 	Logger* getLogger(void);

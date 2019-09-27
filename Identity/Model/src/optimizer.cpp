@@ -45,22 +45,15 @@ void Optimizer::normal(float64_t &weight, float64_t &bias, const float64_t dL_dw
 }
 
 void Optimizer::momentum(float64_t &weight, float64_t &bias, const float64_t dL_dw, const float64_t dL_db) {
-#if 0
-	dL_dw_velocity = gamma * dL_dw_velocity + eta*dL_dw;
-	dL_db_velocity = gamma * dL_db_velocity + eta*dL_db;
-	*weight -= dL_dw_velocity;
-	*bias -= dL_db_velocity;
-#else
 	dL_dw_velocity = gamma * dL_dw_velocity + dL_dw;
 	dL_db_velocity = gamma * dL_db_velocity + dL_db;
 	weight -= (eta*dL_dw_velocity);
 	bias -= (eta*dL_db_velocity);
-#endif
 }
 
 void Optimizer::rms(float64_t &weight, float64_t &bias, const float64_t dL_dw, const float64_t dL_db) {
-	movingSquareAverage(&square_avg_dL_dw, dL_dw, beta2);
-	movingSquareAverage(&square_avg_dL_db, dL_db, beta2);
+	movingSquareAverage(&square_avg_dL_dw, dL_dw, beta1);
+	movingSquareAverage(&square_avg_dL_db, dL_db, beta1);
 	weight -= (eta * (1 / (std::sqrt(square_avg_dL_dw + EPSILON))) * dL_dw);
 	bias -= (eta * (1 / (std::sqrt(square_avg_dL_db + EPSILON))) * dL_db);
 }

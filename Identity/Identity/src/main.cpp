@@ -23,20 +23,21 @@ int main(int argc, char* argv[]) {
 	/* Identity Function, so output is same as input */
 	out_vec = inp_vec;
 	
-	model.getLogger()->openFile("C:\\Project\\Cpp\\Machine_Learning\\Deep_Learning\\Identity\\file.txt");
+	model.getLogger()->openFile("..\\..\\file.txt");
 	model.getLogger()->logHeader("Epochs,Batch,Loss,Batch_dldw,Batch_dldb,Weight,Bias");
 
-	model.getOptimizer()->init(OPTIMIZER_RMS, LEARNING_RATE, GAMMA, BETA1, BETA2);
+	model.getOptimizer()->init(OPTIMIZER_ADAM, LEARNING_RATE, GAMMA, BETA1, BETA2);
 
-	model.init(EPOCHS, BATCH_METHOD_BATCH, TRUE);
+	model.init(EPOCHS, BATCH_METHOD_MINI_BATCH, TRUE);
+	std::cout << "Training started:\n"<< "\tTotal Epochs: " << model.getTotalEpochs() << "\n\tLearning Rate : " << LEARNING_RATE << std::endl;
 	auto start = std::chrono::high_resolution_clock::now();
 	model.run(inp_vec, out_vec);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+	std::cout << "Training stopped:\n" << "\tEpochs: " << model.getEpochNum() << "\n\tTime: " << duration.count() << " microseconds" << std::endl;
 	model.getLogger()->closeFile();
 
-	std::getchar();
+	//std::getchar();
 
 	return 0;
 }
